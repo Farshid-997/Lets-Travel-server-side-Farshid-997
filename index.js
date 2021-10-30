@@ -54,7 +54,7 @@ async function run(){
          const result= await serviceCollection.insertOne(service)
          console.log(result)
          res.json(result)
-    
+      
        // res.send('post hitted')
     })
     
