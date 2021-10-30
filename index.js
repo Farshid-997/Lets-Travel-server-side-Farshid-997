@@ -28,11 +28,11 @@ async function run(){
     
     //get api
     
-    // app.get('/services',async(req,res)=>{
-    //     const cursor=serviceCollection.find({})
-    //     const services= await cursor.toArray();
-    //     res.send(services)
-    // })
+    app.get('/services',async(req,res)=>{
+        const cursor=serviceCollection.find({})
+        const services= await cursor.toArray();
+        res.send(services)
+    })
     
     //get the single service
     
