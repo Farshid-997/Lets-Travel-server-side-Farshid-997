@@ -4,12 +4,13 @@ const objectId=require('mongodb').ObjectId;
 require('dotenv').config()
 const cors=require('cors')
 const app=express();
+const fileUpload=require('express-fileupload')
 const port=process.env.PORT||5000;
 
 
 app.use(cors())
 app.use(express.json())
-
+app.use(fileUpload())
 const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0.rh3cx.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`;
 const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
 
@@ -27,6 +28,7 @@ async function run(){
     const database=client.db("TourTravel");
     const  serviceCollection=database.collection('services');
     const orderCollection=database.collection('orders')
+    const  blogCollection=database.collection('Blogs')
     //get api
     
     app.get('/services',async(req,res)=>{
@@ -86,6 +88,34 @@ app.delete('/orders/:id',async(req,res)=>{
   
    // res.send('post hitted')
 })
+
+app.post('/blog',async(req,res)=>{
+const name=req.body.name
+const place=req.body.place
+const description=req.body.description
+const image=req.files.image
+const imageData=image.data
+const encodedPic=imageData.toString('base64')
+const imgBuffer=Buffer.from(encodedPic,'base64')
+
+const blogs={
+  name,
+  place,
+  description,
+  image:imgBuffer
+}
+const result=await blogCollection.insertOne(blogs)
+console.log(result)
+res.json(result) 
+
+})
+
+app.get('/blog',async(req,res)=>{
+  const cursor=blogCollection.fins({})
+  const blogs= await cursor.toArray()
+  res.json(blogs)
+})
+
 
 
     }
