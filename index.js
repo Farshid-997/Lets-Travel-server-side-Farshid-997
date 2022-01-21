@@ -31,6 +31,7 @@ async function run(){
     const  blogCollection=database.collection('Blogs')
     const  contactCollection=database.collection('contact')
     const usersCollection=database.collection('users')
+    const reviewCollection=database.collection('reviews')
     //get api
     
     app.get('/services',async(req,res)=>{
@@ -151,6 +152,24 @@ app.get('/contact',async(req,res)=>{
   const contact= await cursor.toArray();
   res.send(contact)
 })
+
+app.post('/addreview',async(req,res)=>{
+  const review=req.body
+  const result= await reviewCollection.insertOne(review)
+  res.json(result)
+})
+
+app.delete('/contact/:id',async(req,res)=>{
+      const id=req.params.id;
+      const query={_id:objectId(id)}
+  
+     const result= await contactCollection.deleteOne(query)
+     console.log(result)
+     res.json(result)
+  
+})
+
+
 
 
 app.get('/users/:email',async(req,res)=>{
