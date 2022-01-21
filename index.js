@@ -90,6 +90,14 @@ app.post('/orders',async(req,res)=>{
    // res.send('post hitted')
 })
 
+//get order
+
+app.get('/orders',async(req,res)=>{
+  const cursor= orderCollection.find({})
+  const orders= await cursor.toArray();
+  res.send(orders)
+})
+
 //delete
 
 app.delete('/orders/:id',async(req,res)=>{
@@ -138,62 +146,66 @@ app.post('/contact',async(req,res)=>{
   res.json(result)
 })
 
+app.get('/contact',async(req,res)=>{
+  const cursor=contactCollection.find({})
+  const contact= await cursor.toArray();
+  res.send(contact)
+})
 
- //get the user 
+
+app.get('/users/:email',async(req,res)=>{
+  const email=req.params.email;
+  const query={email:email}
+  const users=await usersCollection.findOne(query)
+ let isAdmin=false
+ if(users?.role==='admin'){
+isAdmin=true;
+ }
+  res.json({admin:isAdmin})
+})
   
-//  app.get('/users/:email',async(req,res)=>{
-//   const email=req.params.email;
-//   const query={email:email}
-//   const users=await usersCollection.findOne(query)
-//  let isAdmin=false
-//  if(users?.role==='admin'){
-// isAdmin=true;
-//  }
-//   res.json({admin:isAdmin})
-// })
-  
 
-// //users post 
-// app.post('/users',async(req,res)=>{
+//users post 
+app.post('/users',async(req,res)=>{
      
-//   const users=req.body;
-//   console.log('hit the post api',users)
+  const users=req.body;
+  console.log('hit the post api',users)
 
-//    const result= await usersCollection.insertOne(users)
-//    console.log(result)
-//    res.json(result)
+   const result= await usersCollection.insertOne(users)
+   console.log(result)
+   res.json(result)
 
-//  // res.send('post hitted')
-// })
+ // res.send('post hitted')
+})
 
-// app.put('/users',async(req,res)=>{
+app.put('/users',async(req,res)=>{
      
-// const users=req.body;
-// const filter={email:users.email}
-// const options={upsert:true}
-// const updateDoc={$set:users}
+const users=req.body;
+const filter={email:users.email}
+const options={upsert:true}
+const updateDoc={$set:users}
 
-//  const result= await usersCollection.updateOne(filter,updateDoc,options)
-//  console.log(result)
-//  res.json(result)
+ const result= await usersCollection.updateOne(filter,updateDoc,options)
+ console.log(result)
+ res.json(result)
 
-// // res.send('post hitted')
-// })
+// res.send('post hitted')
+})
 
 
-// app.put('/users/admin',async(req,res)=>{
+app.put('/users/admin',async(req,res)=>{
      
-// const users=req.body;
-// const filter={email:users.email}
-// const options={upsert:true}
-// const updateDoc={$set:{role:'admin'}}
+const users=req.body;
+const filter={email:users.email}
+const options={upsert:true}
+const updateDoc={$set:{role:'admin'}}
 
-//  const result= await usersCollection.updateOne(filter,updateDoc,options)
-//  console.log(result)
-//  res.json(result)
+ const result= await usersCollection.updateOne(filter,updateDoc,options)
+ console.log(result)
+ res.json(result)
 
-// // res.send('post hitted')
-// })
+// res.send('post hitted')
+})
 
 
 
