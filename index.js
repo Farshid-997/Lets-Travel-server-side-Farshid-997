@@ -99,6 +99,13 @@ app.get('/orders',async(req,res)=>{
   res.send(orders)
 })
 
+// app.get('/orders/:id',async(req,res)=>{
+//   const id=req.params.id;
+//   const query={_id:objectId(id)}
+//   const order= await orderCollection.findOne(query)
+//   res.json(order)
+// })
+
 //delete
 
 app.delete('/orders/:id',async(req,res)=>{
