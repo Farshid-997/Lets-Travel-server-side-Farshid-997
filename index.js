@@ -15,7 +15,7 @@ app.use(fileUpload());
 
 dbConnect();
 
-app.use("/service", servicerouter);
+app.use("/api/service", servicerouter);
 
 app.get("/", (req, res) => {
   res.send("get the response");
