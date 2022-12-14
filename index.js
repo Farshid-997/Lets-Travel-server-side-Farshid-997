@@ -6,7 +6,7 @@ const cors = require("cors");
 const app = express();
 const fileUpload = require("express-fileupload");
 const dbConnect = require("./utils/dbConnect");
-const servicerouter = require("");
+const servicerouter = require("./routes/v1/services.route");
 const port = process.env.PORT || 5000;
 
 app.use(cors());
@@ -15,7 +15,7 @@ app.use(fileUpload());
 
 dbConnect();
 
-app.use("/api/service", servicerouter);
+app.use("/api/v1/service", servicerouter);
 
 app.get("/", (req, res) => {
   res.send("get the response");
